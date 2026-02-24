@@ -1,3 +1,4 @@
+import { exec } from 'child_process';
 import { ipcRenderer } from "electron"
 import path from "path"
 import fs from "fs"
@@ -261,7 +262,18 @@ const startsan = async (appinfo: AppInfo) => {
         
                 unlocked.forEach(async (achievement: Achievement) => {
                     log.write("INFO",`Achievement unlocked: ${JSON.stringify(achievement)}`)
-        
+                    
+                    // NOVO: Chamar script de gravação de 15 segundos
+                    const scriptPath = '$HOME/.local/bin/gravar-15s.sh';
+                    exec(`bash ${scriptPath}`, (error, stdout, stderr) => {
+                    	if (error) {
+            			log.write("ERROR",`Failed to execute recording script: ${error.message}`);
+            			return;
+        		}
+        		log.write("INFO",`Recording script executed successfully`);
+    			});
+    			
+    			
                     const config = sanconfig.get()
                     const { rarity, semirarity, trophymode } = config.store
                     const type = achievement.percent <= rarity ? "rare" : (trophymode && (achievement.percent <= semirarity && achievement.percent > rarity) ? "semi" : "main")
