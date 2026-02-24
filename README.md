@@ -55,7 +55,7 @@ if [ $? -eq 0 ]; then
     echo "✅ Gravação salva: $OUTPUT_DIR/Conquista_${TIMESTAMP}.mp4"
     notify-send "🏆 Conquista gravada!" "Vídeo salvo com sucesso" --icon=video
 else
-```
     echo "❌ Erro na gravação"
     notify-send "❌ Erro" "Falha ao gravar conquista" --icon=error
 fi
+```
